@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DelphiAI Home</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1DB954;
+            padding: 10px 20px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .logout {
+            margin-right: auto;
+        }
+        .logout a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .logout a:hover {
+            text-decoration: underline;
+        }
+        .home-icon {
+            width: 30px;
+            height: auto;
+            cursor: pointer;
+        }
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 50px); /* Full height minus the navbar height */
+        }
+        .logo {
+            width: 200px;  
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logout">
+            <button onclick="confirmLogout()">Logout</button>
+        </div>
+        <div class="nav-links">
+            <a href="/analysis">Analysis</a>
+            <a href="/plays">Plays</a>
+            <a href="/discover">Discover</a>
+        </div>
+        <a href="/home"><img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="Home" class="home-icon"></a>
+    </nav>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/DelphiAI_logo.png') }}" alt="DelphiAI Logo" class="logo">
+        <h1>Welcome to DelphiAI</h1>
+        <p>Your personalized Spotify analysis platform.</p>
+    </div>
+    <footer style="position: fixed; bottom: 0; width: 100%; background-color: black; color: white; text-align: center; padding: 10px; font-family: Arial, sans-serif;">
+        <span>Content is supplied and made available by</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo" style="vertical-align: middle; width: 80px; height: auto; margin-left: 5px;">
+    </footer>
+    <script>
+        function confirmLogout() {
+            window.location.href = "/logout"; // Redirects to the logout route if confirmed
+        }
+        </script>
+</body>
+</html>

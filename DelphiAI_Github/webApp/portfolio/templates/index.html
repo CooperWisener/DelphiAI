@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DelphiAI Login</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo {
+            width: 200px;  
+            height: auto;
+            margin-bottom: 20px; 
+        }
+        .spotify-login-button {
+            width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1DB954;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .spotify-login-button:hover {
+            background-color: #1ed760; 
+        }
+        .flash-messages {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/DelphiAI_logo.png') }}" alt="DelphiAI Logo" class="logo">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <a href="{{ url_for('login') }}" class="spotify-login-button">Login with Spotify</a>
+    </div>
+    <script>
+        function logoutUser() {
+            // Clear local storage or cookies here if used
+            localStorage.removeItem('userToken');
+            // Redirect to server logout route
+            window.location.href = '/logout';
+        }
+    </script>
+</body>
+</html>

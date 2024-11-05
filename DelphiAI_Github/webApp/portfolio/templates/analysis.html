@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DelphiAI - Analysis</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1DB954;
+            padding: 10px 20px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .logout {
+            margin-right: auto;
+        }
+        .logout a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .logout a:hover {
+            text-decoration: underline;
+        }
+        .home-icon {
+            width: 30px;
+            height: auto;
+            cursor: pointer;
+        }
+        .content {
+            padding: 20px;
+        }
+        .dropdown-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        .dropdown-container select {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .lists-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .list {
+            width: 48%;
+        }
+        .list h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #222;
+        }
+        .list-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        .dictionary-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .dictionary-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .dictionary-section ul li {
+            background-color: #222;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="nav-links">
+            <a href="/analysis">Analysis</a>
+            <a href="/plays">Plays</a>
+            <a href="/discover">Discover</a>
+        </div>
+        <a href="/home"><img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="Home" class="home-icon"></a>
+    </nav>
+    <div class="content">
+        <div class="dropdown-container">
+            <select id="timeframe" onchange="updateLists()">
+                <option value="4weeks" {% if selected_timeframe == '4weeks' %}selected{% endif %}>Last 4 Weeks</option>
+                <option value="6months" {% if selected_timeframe == '6months' %}selected{% endif %}>Last 6 Months</option>
+                <option value="1year" {% if selected_timeframe == '1year' %}selected{% endif %}>Last 1 Year</option>
+            </select>
+        </div>
+        <div class="lists-container">
+            <div class="list" id="top-artists">
+                <h2>Top 10 Artists</h2>
+                {% for (artist_name, artist_url), artist_image_url in top_artists %}
+                <div class="list-item">
+                    <a href="{{ artist_url }}" target="_blank">
+                        <img src="{{ artist_image_url }}" alt="{{ artist_name }}">
+                    </a>
+                    <a href="{{ artist_url }}" target="_blank" style="color: white; text-decoration: none;">
+                        {{ artist_name }}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="list" id="top-tracks">
+                <h2>Top 10 Tracks</h2>
+                {% for (track_name, track_url), track_image_url in top_tracks %}
+                <div class="list-item">
+                    <img src="{{ track_image_url }}" alt="{{ track_name }}">
+                    <a href="{{ track_url }}" target="_blank" style="color: white; text-decoration: none;">
+                        {{ track_name }}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="dictionary-section">
+            <h2>Fun Facts!</h2>
+            <ul>
+                {% if 'danceability' in dictionary %}
+                <li><strong>You have been listening to a lot of danceable music lately! (Dance Score: {{ dictionary['danceability'] }})</strong></li>
+                {% endif %}
+                
+                {% if 'energy' in dictionary %}
+                <li><strong>You have been listening to a lot of high energy music lately! (Energy Score: {{ dictionary['energy'] }})</strong></li>
+                {% endif %}
+                
+                {% if 'loudness' in dictionary %}
+                <li><strong>You have been listening to a lot of loud music lately! (Loudness Score: {{ dictionary['loudness'] }})</strong></li>
+                {% endif %}
+                
+                {% if 'speechiness' in dictionary %}
+                <li><strong>You have been listening to a lot of lyrically dense music lately! (Lyrical Score: {{ dictionary['speechiness'] }})</strong></li>
+                {% endif %}
+                
+                {% if 'acousticness' in dictionary %}
+                <li><strong>You have been listening to a lot of acoustic music lately! (Acoustic Score: {{ dictionary['acousticness'] }})</strong></li>
+                {% endif %}
+                
+                {% if 'instrumentalness' in dictionary %}
+                <li><strong>You have been listening to a lot of instrumental music lately! (Instrumental Score: {{ dictionary['instrumentalness'] }})</strong> {{ dictionary['instrumentalness'] }}</li>
+                {% endif %}
+                
+                {% if 'liveness' in dictionary %}
+                <li><strong>You have been listening to a lot of live music lately! (Liveness Score: {{ dictionary['liveness'] }})</strong></li>
+                {% endif %}
+                
+                {% if 'valence' in dictionary %}
+                    {% if dictionary['valence'] > 0.65 %}
+                        <li><strong>You tend to prefer more positive music as of late! (Valence Score: {{ dictionary['valence'] }})</strong></li>
+                    {% elif dictionary['valence'] < 0.35 %}
+                        <li><strong>You tend to prefer more negative music as of late! (Valence Score: {{ dictionary['valence'] }})</strong></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            
+            <ul>
+                {% if dictionary['tempo'] %}
+                    {% if dictionary['tempo'] > 120 %}
+                    <li><strong>You've been listening to uptempo music lately! (Tempo: {{ dictionary['tempo'] }} BPM)</strong></li>
+                    {% elif dictionary['tempo'] < 100 %}
+                    <li><strong>You've been listening to low tempo music lately! (Tempo: {{ dictionary['tempo'] }} BPM)</strong></li>
+                    {% else %}
+                    <li><strong>You've been listening to moderate tempo music! (Tempo: {{ dictionary['tempo'] }} BPM)</strong></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        </div>
+
+        <footer style="position: fixed; bottom: 0; width: 100%; background-color: black; color: white; text-align: center; padding: 10px; font-family: Arial, sans-serif;">
+            <span>Content is supplied and made available by</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo" style="vertical-align: middle; width: 80px; height: auto; margin-left: 5px;">
+        </footer>
+
+    <script>
+        function getQueryParam(param) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    window.onload = function() {
+        var timeframe = getQueryParam('timeframe') || '4weeks'; // Default to '4weeks' if not set
+        document.getElementById("timeframe").value = timeframe;
+        
+        var timeframeText = '';
+        if (timeframe === '4weeks') {
+            timeframeText = 'Last 4 Weeks';
+        } else if (timeframe === '6months') {
+            timeframeText = 'Last 6 Months';
+        } else if (timeframe === '1year') {
+            timeframeText = 'Last 1 Year';
+        }
+        
+        document.getElementById("current-timeframe").innerText = "Currently Showing: " + timeframeText;
+    };
+
+    function updateLists() {
+    var timeframe = document.getElementById("timeframe").value;
+    window.location.href = '/analysis?timeframe=' + timeframe;
+    }
+    </script>
+</body>
+</html>

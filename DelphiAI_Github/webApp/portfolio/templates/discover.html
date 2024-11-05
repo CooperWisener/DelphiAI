@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DelphiAI - Discover</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1DB954;
+            padding: 10px 20px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .logout {
+            margin-right: auto;
+        }
+        .logout a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .logout a:hover {
+            text-decoration: underline;
+        }
+        .home-icon {
+            width: 30px;
+            height: auto;
+            cursor: pointer;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .explanation {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+        .boxes-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .box {
+            width: 200px;
+            height: 100px;
+            background-color: #222;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid #1DB954;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .box:hover {
+            background-color: #1DB954;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="nav-links">
+            <a href="/analysis">Analysis</a>
+            <a href="/plays">Plays</a>
+            <a href="/discover">Discover</a>
+        </div>
+        <a href="/home"><img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="Home" class="home-icon"></a>
+    </nav>
+    <div class="content">
+        <p class="explanation">This page will recommend you new music based on either your previously played songs or based off your favorite songs/artists.</p>
+        
+        <div class="boxes-container">
+            <a href="/discover_plays" class="box">Based off listening history</a>
+            <a href="/discover_favs" class="box">Based off your favorites</a>
+        </div>
+    </div>
+    <footer style="position: fixed; bottom: 0; width: 100%; background-color: black; color: white; text-align: center; padding: 10px; font-family: Arial, sans-serif;">
+        <span>Content is supplied and made available by</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo" style="vertical-align: middle; width: 80px; height: auto; margin-left: 5px;">
+    </footer>
+</body>
+</html>

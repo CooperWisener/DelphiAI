@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DelphiAI - Plays</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1DB954;
+            padding: 10px 20px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .logout {
+            margin-right: auto;
+        }
+        .logout a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .logout a:hover {
+            text-decoration: underline;
+        }
+        .home-icon {
+            width: 30px;
+            height: auto;
+            cursor: pointer;
+        }
+        .content {
+            padding: 20px;
+        }
+        .track-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .track-item img {
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+        .track-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .track-details .song-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .track-details .artist-name {
+            font-size: 18px;
+        }
+        .track-details .played-at {
+            font-size: 16px;
+            color: #888;
+            text-align: right; /* Align the date and time to the right */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="nav-links">
+            <a href="/analysis">Analysis</a>
+            <a href="/plays">Plays</a>
+            <a href="/discover">Discover</a>
+        </div>
+        <a href="/home"><img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="Home" class="home-icon"></a>
+    </nav>
+    <div class="content">
+        {% for item in items %}
+        <div class="track-item">
+            <img src="{{ item['artist_picture'] }}" alt="Artist Picture">
+            <div class="track-details">
+                <div class="song-name">
+                    <a href="{{ item['track_url'] }}" target="_blank" style="color: white; text-decoration: none;">
+                        {{ item['song_name'] }}
+                    </a>
+                </div>
+                <div class="artist-name">{{ item['artist_name'] }}</div>
+            </div>
+            <div class="played-at">{{ item['played_at'] }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <footer style="position: fixed; bottom: 0; width: 100%; background-color: black; color: white; text-align: center; padding: 10px; font-family: Arial, sans-serif;">
+        <span>Content is supplied and made available by</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo" style="vertical-align: middle; width: 80px; height: auto; margin-left: 5px;">
+    </footer>
+</body>
+</html>
